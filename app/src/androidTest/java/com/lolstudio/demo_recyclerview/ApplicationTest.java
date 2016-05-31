@@ -1,4 +1,4 @@
-package com.lolstudio.demo_recyleview;
+package com.lolstudio.demo_recyclerview;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

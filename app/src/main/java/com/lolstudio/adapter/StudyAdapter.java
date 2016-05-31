@@ -12,7 +12,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.lolstudio.bean.Study;
-import com.lolstudio.demo_recyleview.R;
+import com.lolstudio.demo_recyclerview.R;
 
 import java.util.HashMap;
 import java.util.List;
