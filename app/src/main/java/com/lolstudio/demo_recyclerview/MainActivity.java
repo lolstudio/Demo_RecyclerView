@@ -30,39 +30,26 @@ public class MainActivity extends AppCompatActivity {
 
     public List<Study> getStudy() {
         List<Study> value = new ArrayList<>();
-        value.add(new Study("question1", new Study.Answer("111", new String[]{"answer1", "answer2", "answer3", "answer4"})));
-        value.add(new Study("question2", new Study.Answer("222", new String[]{"answer1", "answer2", "answer3", "answer4", "answer5"})));
-        value.add(new Study("question3", new Study.Answer("333", new String[]{"answer1", "answer2", "answer3", "answer4"})));
-        value.add(new Study("question4", new Study.Answer("444", new String[]{"answer1", "answer2", "answer3", "answer4", "answer5"})));
-        value.add(new Study("question5", new Study.Answer("555", new String[]{"answer1", "answer2", "answer3", "answer4"})));
-        value.add(new Study("question6", new Study.Answer("666", new String[]{"answer1", "answer2", "answer3", "answer4", "answer5"})));
-        value.add(new Study("question1", new Study.Answer("111", new String[]{"answer1", "answer2", "answer3", "answer4"})));
-        value.add(new Study("question2", new Study.Answer("222", new String[]{"answer1", "answer2", "answer3", "answer4", "answer5"})));
-        value.add(new Study("question3", new Study.Answer("333", new String[]{"answer1", "answer2", "answer3", "answer4"})));
-        value.add(new Study("question4", new Study.Answer("444", new String[]{"answer1", "answer2", "answer3", "answer4", "answer5"})));
-        value.add(new Study("question5", new Study.Answer("555", new String[]{"answer1", "answer2", "answer3", "answer4"})));
-        value.add(new Study("question6", new Study.Answer("666", new String[]{"answer1", "answer2", "answer3", "answer4", "answer5"})));
-        value.add(new Study("question1", new Study.Answer("111", new String[]{"answer1", "answer2", "answer3", "answer4"})));
-        value.add(new Study("question2", new Study.Answer("222", new String[]{"answer1", "answer2", "answer3", "answer4", "answer5"})));
-        value.add(new Study("question3", new Study.Answer("333", new String[]{"answer1", "answer2", "answer3", "answer4"})));
-        value.add(new Study("question4", new Study.Answer("444", new String[]{"answer1", "answer2", "answer3", "answer4", "answer5"})));
-        value.add(new Study("question5", new Study.Answer("555", new String[]{"answer1", "answer2", "answer3", "answer4"})));
-        value.add(new Study("question6", new Study.Answer("666", new String[]{"answer1", "answer2", "answer3", "answer4", "answer5"})));
-        value.add(new Study("question1", new Study.Answer("111", new String[]{"answer1", "answer2", "answer3", "answer4"})));
-        value.add(new Study("question2", new Study.Answer("222", new String[]{"answer1", "answer2", "answer3", "answer4", "answer5"})));
-        value.add(new Study("question3", new Study.Answer("333", new String[]{"answer1", "answer2", "answer3", "answer4"})));
-        value.add(new Study("question4", new Study.Answer("444", new String[]{"answer1", "answer2", "answer3", "answer4", "answer5"})));
-        value.add(new Study("question5", new Study.Answer("555", new String[]{"answer1", "answer2", "answer3", "answer4"})));
-        value.add(new Study("question6", new Study.Answer("666", new String[]{"answer1", "answer2", "answer3", "answer4", "answer5"})));
+        value.add(new Study("question1", new Study.Answer(0, "111", new String[]{"answer1", "answer2", "answer3", "answer4"})));
+        value.add(new Study("question2", new Study.Answer(0, "222", new String[]{"answer1", "answer2", "answer3", "answer4", "answer5"})));
+        value.add(new Study("question3", new Study.Answer(0, "333", new String[]{"answer1", "answer2", "answer3", "answer4"})));
+        value.add(new Study("question6", new Study.Answer(0, "666", new String[]{"answer1", "answer2", "answer3", "answer4", "answer5"})));
+        value.add(new Study("question1", new Study.Answer(0, "111", new String[]{"answer1", "answer2", "answer3", "answer4"})));
+        value.add(new Study("question2", new Study.Answer(0, "222", new String[]{"answer1", "answer2", "answer3", "answer4", "answer5"})));
+        value.add(new Study("question3", new Study.Answer(1, "333", new String[]{"answer1", "answer2", "answer3", "answer4"})));
+        value.add(new Study("question4", new Study.Answer(1, "444", new String[]{"answer1", "answer2", "answer3", "answer4", "answer5"})));
+        value.add(new Study("question5", new Study.Answer(1, "555", new String[]{"answer1", "answer2", "answer3", "answer4"})));
+        value.add(new Study("question3", new Study.Answer(1, "333", new String[]{"answer1", "answer2", "answer3", "answer4"})));
+        value.add(new Study("question4", new Study.Answer(1, "444", new String[]{"answer1", "answer2", "answer3", "answer4", "answer5"})));
+        value.add(new Study("question5", new Study.Answer(1, "555", new String[]{"answer1", "answer2", "answer3", "answer4"})));
+        value.add(new Study("question6", new Study.Answer(1, "666", new String[]{"answer1", "answer2", "answer3", "answer4", "answer5"})));
         return value;
     }
 
     public void getValue(View v) {
 //        adapter.getValue();//获得选定的值，不清楚服务器端数据格式
-//        adapter.setErrorIndex(2,5);//设置答错的题目
+        adapter.setErrorIndex(2,5,8);//设置答错的题目
     }
-
-
 
 
 }

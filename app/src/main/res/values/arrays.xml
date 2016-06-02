@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="session_answer_mate">
+        <item>All</item>
+        <item>type</item>
+        <item>travel</item>
+        <item>memo</item>
+        <item>computer</item>
+        <item>telephone</item>
+    </string-array>
+</resources>
