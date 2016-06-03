@@ -1,20 +1,24 @@
 package com.lolstudio.demo_recyclerview;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.lolstudio.adapter.StudyAdapter;
 import com.lolstudio.bean.Study;
+import com.lolstudio.widget.WrapRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private RecyclerView rvTest;
+    private WrapRecyclerView rvTest;
     private StudyAdapter adapter;
 
     @Override
@@ -22,33 +26,53 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        rvTest = (RecyclerView) findViewById(R.id.rv_test);
+        rvTest = (WrapRecyclerView) findViewById(R.id.rv_test);
         rvTest.setLayoutManager(new LinearLayoutManager(this));
         adapter = new StudyAdapter(this, getStudy());
+
+
+
+
+        RelativeLayout sendBottomRL=new RelativeLayout(this);
+        sendBottomRL.setBackgroundColor(Color.parseColor("#EEEEEE"));
+        sendBottomRL.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,200));
+        Button sendBtn=new Button(this);
+        sendBtn.setText("complete");
+        sendBtn.setTextColor(Color.WHITE);
+        sendBtn.setBackgroundResource(R.drawable.session_question_send);
+        RelativeLayout.LayoutParams params=new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        params.addRule(RelativeLayout.CENTER_IN_PARENT);
+        sendBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                adapter.getValue();
+                adapter.setErrorIndex(2,5,8);//设置答错的题目
+            }
+        });
+        sendBottomRL.addView(sendBtn,params);
+
+
+        rvTest.addFootView(sendBottomRL);
         rvTest.setAdapter(adapter);
+
     }
 
     public List<Study> getStudy() {
         List<Study> value = new ArrayList<>();
-        value.add(new Study("question1", new Study.Answer(0, "111", new String[]{"answer1", "answer2", "answer3", "answer4"})));
-        value.add(new Study("question2", new Study.Answer(0, "222", new String[]{"answer1", "answer2", "answer3", "answer4", "answer5"})));
-        value.add(new Study("question3", new Study.Answer(0, "333", new String[]{"answer1", "answer2", "answer3", "answer4"})));
-        value.add(new Study("question6", new Study.Answer(0, "666", new String[]{"answer1", "answer2", "answer3", "answer4", "answer5"})));
-        value.add(new Study("question1", new Study.Answer(0, "111", new String[]{"answer1", "answer2", "answer3", "answer4"})));
-        value.add(new Study("question2", new Study.Answer(0, "222", new String[]{"answer1", "answer2", "answer3", "answer4", "answer5"})));
-        value.add(new Study("question3", new Study.Answer(1, "333", new String[]{"answer1", "answer2", "answer3", "answer4"})));
-        value.add(new Study("question4", new Study.Answer(1, "444", new String[]{"answer1", "answer2", "answer3", "answer4", "answer5"})));
-        value.add(new Study("question5", new Study.Answer(1, "555", new String[]{"answer1", "answer2", "answer3", "answer4"})));
-        value.add(new Study("question3", new Study.Answer(1, "333", new String[]{"answer1", "answer2", "answer3", "answer4"})));
-        value.add(new Study("question4", new Study.Answer(1, "444", new String[]{"answer1", "answer2", "answer3", "answer4", "answer5"})));
-        value.add(new Study("question5", new Study.Answer(1, "555", new String[]{"answer1", "answer2", "answer3", "answer4"})));
-        value.add(new Study("question6", new Study.Answer(1, "666", new String[]{"answer1", "answer2", "answer3", "answer4", "answer5"})));
+        value.add(new Study("question1", new Study.Answer(1,0, "a111", new String[]{"answer1", "answer2", "answer3", "answer4"})));
+        value.add(new Study("question2", new Study.Answer(2,0, "a222", new String[]{"answer1", "answer2", "answer3", "answer4", "answer5"})));
+        value.add(new Study("question3", new Study.Answer(3,0, "a333", new String[]{"answer1", "answer2", "answer3", "answer4"})));
+//        value.add(new Study("question6", new Study.Answer(0, "a444", new String[]{"answer1", "answer2", "answer3", "answer4", "answer5"})));
+//        value.add(new Study("question1", new Study.Answer(0, "a555", new String[]{"answer1", "answer2", "answer3", "answer4"})));
+//        value.add(new Study("question2", new Study.Answer(0, "a666", new String[]{"answer1", "answer2", "answer3", "answer4", "answer5"})));
+        value.add(new Study("question3", new Study.Answer(4,1, "b111", new String[]{"answer1", "answer2", "answer3", "answer4"})));
+        value.add(new Study("question4", new Study.Answer(5,1, "b222", new String[]{"answer1", "answer2", "answer3", "answer4", "answer5"})));
+        value.add(new Study("question5", new Study.Answer(6,1, "b333", new String[]{"answer1", "answer2", "answer3", "answer4"})));
+//        value.add(new Study("question3", new Study.Answer(1, "b333", new String[]{"answer1", "answer2", "answer3", "answer4"})));
+//        value.add(new Study("question4", new Study.Answer(1, "b444", new String[]{"answer1", "answer2", "answer3", "answer4", "answer5"})));
+//        value.add(new Study("question5", new Study.Answer(1, "b555", new String[]{"answer1", "answer2", "answer3", "answer4"})));
+//        value.add(new Study("question6", new Study.Answer(1, "b666", new String[]{"answer1", "answer2", "answer3", "answer4", "answer5"})));
         return value;
-    }
-
-    public void getValue(View v) {
-//        adapter.getValue();//获得选定的值，不清楚服务器端数据格式
-        adapter.setErrorIndex(2,5,8);//设置答错的题目
     }
 
 

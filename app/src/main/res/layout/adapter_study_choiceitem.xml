@@ -2,22 +2,33 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:orientation="vertical"
-              android:padding="15dp">
+              android:layout_marginBottom="10dp"
+              android:orientation="vertical">
 
-    <View
-        android:id="@+id/line1"
+    <TextView
+        android:id="@+id/tv_choice_tip"
+        android:background="#E5E5E5"
+        android:textSize="16dp"
+        android:gravity="center_vertical"
+        android:textColor="#4A4A4A"
+        android:paddingLeft="20dp"
+        android:textStyle="bold"
+        android:text="A. Please find the correct definition"
         android:layout_width="match_parent"
-        android:background="#6699cc"
-        android:layout_height="20dp"/>
+        android:layout_height="40dp"/>
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="match_parent"
+        android:layout_marginTop="8dp"
+        android:paddingLeft="20dp"
+        android:textColor="#282828"
         android:layout_height="wrap_content"
         android:text="this is question"/>
 
     <LinearLayout
         android:id="@+id/ll_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"/>

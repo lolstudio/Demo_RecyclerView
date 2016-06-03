@@ -1,5 +1,7 @@
 package com.lolstudio.bean;
 
+import com.google.gson.annotations.Expose;
+
 /**
  * Created by andrew on 2016/5/31.
  */
@@ -39,13 +41,31 @@ public class Study {
     }
 
     public static class Answer {
-        public Answer(int answerType, String answer, String[] value) {
+        public Answer(int answerNumber,int answerType, String answer, String[] value) {
             this.answer = answer;
             mValue = value;
             this.answerType = answerType;
+            this.answerNumber = answerNumber;
 
         }
+
+        public Answer() {
+        }
+
         public int selectionIndex;
+
+        @Expose
+        public int answerNumber;
+        @Expose
+        private String answer;//正确答案
+
+        public int getAnswerNumber() {
+            return answerNumber;
+        }
+
+        public void setAnswerNumber(int answerNumber) {
+            this.answerNumber = answerNumber;
+        }
 
         public int getSelectionIndex() {
             return selectionIndex;
@@ -73,7 +93,7 @@ public class Study {
             mValue = value;
         }
 
-        private String answer;//正确答案
+
         private String[] mValue;
         private String id;
 

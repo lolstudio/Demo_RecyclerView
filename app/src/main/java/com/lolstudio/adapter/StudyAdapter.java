@@ -14,9 +14,12 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.lolstudio.bean.Study;
 import com.lolstudio.demo_recyclerview.R;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +39,7 @@ public class StudyAdapter extends RecyclerView.Adapter<ViewHolder> {
        提示view的position下标
      */
     private int tipPosition = -1;
+    private String[] answerTop = new String[]{"a.", "b.", "c.", "d.", "e."};
 
     public StudyAdapter(Context con, List<Study> list) {
         this.list = list;
@@ -68,6 +72,7 @@ public class StudyAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     /**
      * 获取错误的position
+     *
      * @param errorIndex
      */
     public void setErrorIndex(int... errorIndex) {
@@ -79,9 +84,31 @@ public class StudyAdapter extends RecyclerView.Adapter<ViewHolder> {
 
 
     public void getValue() {
+        List<Study.Answer> toArray=new ArrayList<>();
         for (Map.Entry<Integer, Integer> entry : states.entrySet()) {
-            System.out.println("key = " + list.get(entry.getKey()).getTitle() + ", value = " + entry.getValue());
+            Study.Answer answer=new Study.Answer();
+            //有的题没做时给提示，看需求
+//            if (entry.getValue() != 0) {
+                if(list.get(entry.getKey()).getAnswers().getAnswerType()==Study.CHOICE_XML) {
+                    String value = list.get(entry.getKey()).getAnswers().getValue()[entry.getValue()];
+                    int number=list.get(entry.getKey()).getAnswers().getAnswerNumber();
+                    System.out.println("key = " + number + ", value = " + value);
+                    answer.setAnswerNumber(number);
+                    answer.setAnswer(value);
+                    toArray.add(answer);
+                }else{
+                    String value = mContext.getResources().getStringArray(R.array.session_answer_mate)[entry.getValue()];
+                    int number=list.get(entry.getKey()).getAnswers().getAnswerNumber();
+                    System.out.println("key = " + number + ", value = " + value);
+                    answer.setAnswerNumber(number);
+                    answer.setAnswer(value);
+                    toArray.add(answer);
+//                }
+            }
         }
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+        System.out.println(gson.toJson(toArray));
+
     }
 
     @Override
@@ -104,11 +131,12 @@ public class StudyAdapter extends RecyclerView.Adapter<ViewHolder> {
 
 
         long endTime = System.currentTimeMillis();
-        System.out.println("time:" + (endTime - startTime));
+//        System.out.println("time:" + (endTime - startTime));
     }
 
     /**
      * 设置答错题目的item底色
+     *
      * @param holder
      * @param study
      * @param type
@@ -129,20 +157,25 @@ public class StudyAdapter extends RecyclerView.Adapter<ViewHolder> {
         }
     }
 
-    private void bindMateHolder(MateHolder mateHolder, final Study study, int position) {
+    private void bindMateHolder(MateHolder mateHolder, final Study study,final int position) {
+        for (int i = 0; i < 3; i++) {
+            mateHolder.mateTitle.setText((position - i) + "." + study.getTitle());
+        }
 
         if (tipPosition == position) {
-            mateHolder.line2.setVisibility(View.VISIBLE);
+            mateHolder.tv_mate_tip.setVisibility(View.VISIBLE);
         } else {
-            mateHolder.line2.setVisibility(View.GONE);
+            mateHolder.tv_mate_tip.setVisibility(View.GONE);
         }
-        int index = study.getAnswers().getSelectionIndex();
-        mateHolder.spinner.setSelection(index);//保存选中的值
+        if(states.get(position)!=null){
+            Integer integer = states.get(position);
+            mateHolder.spinner.setSelection(integer);
+        }
 
         mateHolder.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                study.getAnswers().setSelectionIndex(position);
+            public void onItemSelected(AdapterView<?> parent, View view, int p, long id) {
+                states.put(position,p);
             }
 
             @Override
@@ -157,12 +190,12 @@ public class StudyAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     private void bindChoiceHolder(ChoiceHolder choiceHolder, Study study, final int position) {
 
-        choiceHolder.titleView.setText(study.getTitle());
+        choiceHolder.titleView.setText((position + 1) + "." + study.getTitle());
 
         if (position == 0) {
-            choiceHolder.line1.setVisibility(View.VISIBLE);
+            choiceHolder.tv_choice_tip.setVisibility(View.VISIBLE);
         } else {
-            choiceHolder.line1.setVisibility(View.GONE);
+            choiceHolder.tv_choice_tip.setVisibility(View.GONE);
         }
 
 
@@ -173,7 +206,9 @@ public class StudyAdapter extends RecyclerView.Adapter<ViewHolder> {
             View childView = mInflater.inflate(R.layout.adapter_addview_answer, null);
             final RadioButton radioButton = (RadioButton) childView.findViewById(R.id.radioButton);
             radioButton.setId(i);
-            radioButton.setText(study.getAnswers().getValue()[i]);
+            for (int j = 0; j < i + 1; j++) {
+                radioButton.setText(answerTop[j] + study.getAnswers().getValue()[i]);
+            }
             radioGroup.addView(childView);
             radioButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -198,11 +233,11 @@ public class StudyAdapter extends RecyclerView.Adapter<ViewHolder> {
     class ChoiceHolder extends RecyclerView.ViewHolder {
         TextView titleView;
         LinearLayout ll_content;
-        View line1;
+        TextView tv_choice_tip;
 
         public ChoiceHolder(View itemView) {
             super(itemView);
-            line1 = itemView.findViewById(R.id.line1);
+            tv_choice_tip = (TextView) itemView.findViewById(R.id.tv_choice_tip);
             titleView = (TextView) itemView.findViewById(R.id.tv_title);
             ll_content = (LinearLayout) itemView.findViewById(R.id.ll_content);
         }
@@ -210,13 +245,15 @@ public class StudyAdapter extends RecyclerView.Adapter<ViewHolder> {
     }
 
     class MateHolder extends RecyclerView.ViewHolder {
+        TextView mateTitle;
         Spinner spinner;
-        View line2;
+        TextView tv_mate_tip;
 
         public MateHolder(View itemView) {
             super(itemView);
             spinner = (Spinner) itemView.findViewById(R.id.spinner);
-            line2 = itemView.findViewById(R.id.line2);
+            tv_mate_tip = (TextView) itemView.findViewById(R.id.tv_mate_tip);
+            mateTitle = (TextView) itemView.findViewById(R.id.tv_mate_title);
         }
     }
 
